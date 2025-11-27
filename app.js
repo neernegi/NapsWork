@@ -18,11 +18,11 @@ app.use(express.urlencoded({ extended: true }));
 
 // Morgan logging
 app.use(morgan("combined", { stream: accessLogStream }));
-
 if (process.env.NODE_ENV === "development") {
   app.use(morgan("dev"));
 }
 
+// Rate limiter
 app.use(authLimiter);
 app.use(generalLimiter);
 
