@@ -33,3 +33,4 @@
 ::1 - - [27/Nov/2025:11:56:45 +0000] "POST /api/posts HTTP/1.1" 201 301 "-" "PostmanRuntime/7.49.1"
 ::1 - - [27/Nov/2025:11:59:11 +0000] "POST /api/signup HTTP/1.1" 400 128 "-" "PostmanRuntime/7.49.1"
 ::1 - - [27/Nov/2025:11:59:45 +0000] "POST /api/signup HTTP/1.1" 400 34 "-" "PostmanRuntime/7.49.1"
+::1 - - [27/Nov/2025:12:39:33 +0000] "POST /api/signup HTTP/1.1" 201 303 "-" "PostmanRuntime/7.49.1"

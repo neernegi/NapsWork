@@ -5,7 +5,7 @@ import authRoutes from "./src/routes/auth.routes.js";
 import postsRoutes from "./src/routes/post.routes.js";
 import { errorHandler } from "./src/middleware/error.middleware.js";
 import { accessLogStream } from "./src/utils/logger.js";
-import { authLimiter, generalLimiter } from "./src/middleware/rateLimiter.js";
+import { generalLimiter } from "./src/middleware/rateLimiter.js";
 import { corsMiddleware } from "./src/middleware/cors.middleware.js";
 import { requestLogger } from "./src/middleware/requestLogger.js";
 
@@ -27,7 +27,7 @@ if (process.env.NODE_ENV === "development") {
 }
 
 // Rate limiter
-app.use(authLimiter);
+
 app.use(generalLimiter);
 
 // Routes
