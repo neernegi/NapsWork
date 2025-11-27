@@ -1,9 +1,9 @@
-export default {
+module.exports = {
   apps: [
     {
       name: "backend-task",
       script: "./server.js",
-      instances: "max",      // Cluster mode
+      instances: "max",
       exec_mode: "cluster",
       env: {
         NODE_ENV: "production",

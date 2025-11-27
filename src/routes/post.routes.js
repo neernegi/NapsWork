@@ -5,10 +5,8 @@ import { postCreateValidator, fetchPostsValidator } from '../middleware/validato
 
 const router = express.Router();
 
-// POST /api/posts (create)
 router.post('/',postCreateValidator, protect, createPost);
 
-// GET /api/posts (fetch with filters)
 router.get('/', fetchPostsValidator, fetchPosts);
 
 export default router;

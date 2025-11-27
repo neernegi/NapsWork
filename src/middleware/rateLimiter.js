@@ -9,7 +9,6 @@ export const generalLimiter = rateLimit({
   },
 });
 
-// Auth rate limiter (stricter for login/signup)
 export const authLimiter = rateLimit({
   windowMs: 15 * 60 * 1000, 
   max: 5,

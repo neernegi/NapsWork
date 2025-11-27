@@ -9,7 +9,6 @@ console.log(PORT)
 // Connect MongoDB
 connectDB();
 
-// Start server
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });

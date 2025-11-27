@@ -31,7 +31,6 @@ export const loginValidator = [
 export const postCreateValidator = [
   body("postName").notEmpty().withMessage("postName is required"),
   body("description").notEmpty().withMessage("description is required"),
-  // optional: tags as array of strings
   (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty())

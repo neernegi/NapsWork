@@ -7,7 +7,6 @@ const allowedOrigins = [
 
 export const corsMiddleware = cors({
   origin: function (origin, callback) {
-    // In development, allow all origins for easier testing
     if (process.env.NODE_ENV === "development") {
       return callback(null, true);
     }
