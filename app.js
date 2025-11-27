@@ -7,6 +7,7 @@ import { errorHandler } from "./src/middleware/error.middleware.js";
 import { accessLogStream } from "./src/utils/logger.js";
 import { authLimiter, generalLimiter } from "./src/middleware/rateLimiter.js";
 import { corsMiddleware } from "./src/middleware/cors.middleware.js";
+import { requestLogger } from "./src/middleware/requestLogger.js";
 
 const app = express();
 
@@ -15,6 +16,9 @@ app.use(helmet());
 app.use(corsMiddleware);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+// Winston request logging
+app.use(requestLogger);
 
 // Morgan logging
 app.use(morgan("combined", { stream: accessLogStream }));

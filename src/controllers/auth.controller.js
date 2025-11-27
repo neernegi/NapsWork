@@ -1,14 +1,16 @@
 import jwt from "jsonwebtoken";
 import { User } from "../models/user.model.js";
-
+import { logger } from "../utils/ApiLogger.js";
 
 export const signup = async (req, res, next) => {
   try {
     const { name, email, password } = req.body;
 
     const existing = await User.findOne({ email });
-    if (existing)
+    if (existing) {
+      logger.warn("Signup attempt with existing email", { email });
       return res.status(400).json({ message: "Email already exists" });
+    }
 
     const user = await User.create({ name, email, password });
 
@@ -17,6 +19,10 @@ export const signup = async (req, res, next) => {
       process.env.JWT_SECRET,
       { expiresIn: process.env.JWT_EXPIRES_IN }
     );
+    logger.info("User signed up successfully", {
+      token,
+      user: { id: user._id, name: user.name, email: user.email },
+    });
 
     res.status(201).json({
       token,
@@ -32,18 +38,29 @@ export const login = async (req, res, next) => {
     const { email, password } = req.body;
 
     const user = await User.findOne({ email });
-    if (!user)
+    if (!user) {
+      logger.warn("Login attempt with non-existent email", { email });
       return res.status(400).json({ message: "Invalid credentials" });
-
+    }
     const isMatch = await user.comparePassword(password);
-    if (!isMatch)
+    if (!isMatch) {
+      logger.warn("Login attempt with wrong password", {
+        email,
+        userId: user._id,
+      });
       return res.status(400).json({ message: "Invalid credentials" });
+    }
 
     const token = jwt.sign(
       { id: user._id, email: user.email },
       process.env.JWT_SECRET,
       { expiresIn: process.env.JWT_EXPIRES_IN }
     );
+
+    logger.info("User logged in successfully", {
+      token,
+      user: { id: user._id, name: user.name, email: user.email },
+    });
 
     res.json({
       token,

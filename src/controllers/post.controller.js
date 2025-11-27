@@ -1,5 +1,6 @@
 import Post from "../models/post.model.js";
 import mongoose from "mongoose";
+import { logger } from "../utils/ApiLogger.js";
 
 export const createPost = async (req, res, next) => {
   try {
@@ -16,6 +17,9 @@ export const createPost = async (req, res, next) => {
     });
 
     await post.save();
+    logger.info("Post in successfully", {
+      post,
+    });
 
     res.status(201).json({ post });
   } catch (err) {
@@ -58,6 +62,14 @@ export const fetchPosts = async (req, res, next) => {
       Post.countDocuments(filter),
       Post.find(filter).sort({ uploadTime: -1 }).skip(skip).limit(limit).lean(),
     ]);
+
+    logger.info("Post fetch in successfully", {
+      total,
+      page,
+      limit,
+      pages: Math.ceil(total / limit),
+      posts,
+    });
 
     res.json({
       total,
