@@ -21,7 +21,9 @@ export const createPost = async (req, res, next) => {
       post,
     });
 
-    res.status(201).json({ post });
+    res
+      .status(201)
+      .json({ success: true, message: "Post created successfully", post });
   } catch (err) {
     next(err);
   }
@@ -71,7 +73,9 @@ export const fetchPosts = async (req, res, next) => {
       posts,
     });
 
-    res.json({
+    res.status(200).json({
+      success: true,
+      message: "Post fetched successfully",
       total,
       page,
       limit,
