@@ -5,25 +5,23 @@ import { logger } from "../utils/ApiLogger.js";
 export const createPost = async (req, res, next) => {
   try {
     const { postName, description, tags, imageUrl } = req.body;
-
     const userId = req.user.id;
 
-    const post = new Post({
-      userId: new mongoose.Types.ObjectId(userId),
+    const post = await Post.create({
+      userId: userId,
       postName,
       description,
       tags: Array.isArray(tags) ? tags : tags ? [tags] : [],
       imageUrl,
     });
 
-    await post.save();
-    logger.info("Post in successfully", {
-      post,
-    });
+    logger.info("Post created successfully", { post });
 
-    res
-      .status(201)
-      .json({ success: true, message: "Post created successfully", post });
+    res.status(201).json({
+      success: true,
+      message: "Post created successfully",
+      data: post,
+    });
   } catch (err) {
     next(err);
   }
