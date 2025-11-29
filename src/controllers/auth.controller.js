@@ -2,6 +2,12 @@ import jwt from "jsonwebtoken";
 import { User } from "../models/user.model.js";
 import { logger } from "../utils/ApiLogger.js";
 
+const generateToken = (id) => {
+  return jwt.sign({ id }, process.env.JWT_SECRET, {
+    expiresIn: process.env.JWT_EXPIRES_IN,
+  });
+};
+
 export const signup = async (req, res, next) => {
   try {
     const { name, email, password } = req.body;
@@ -14,11 +20,7 @@ export const signup = async (req, res, next) => {
 
     const user = await User.create({ name, email, password });
 
-    const token = jwt.sign(
-      { id: user._id, email: user.email },
-      process.env.JWT_SECRET,
-      { expiresIn: process.env.JWT_EXPIRES_IN }
-    );
+    const token = generateToken(user._id);
     logger.info("User signed up successfully", {
       token,
       user: { id: user._id, name: user.name, email: user.email },
@@ -53,11 +55,7 @@ export const login = async (req, res, next) => {
       return res.status(400).json({ message: "Invalid credentials" });
     }
 
-    const token = jwt.sign(
-      { id: user._id, email: user.email },
-      process.env.JWT_SECRET,
-      { expiresIn: process.env.JWT_EXPIRES_IN }
-    );
+    const token = generateToken(user._id);
 
     logger.info("User logged in successfully", {
       token,
